@@ -11,19 +11,29 @@ import {
   Title,
 } from "./styles";
 
-const TransactionCard: React.FC = () => {
+interface IProps {
+  data: {
+    title: string;
+    amount: string;
+    date: string;
+    category_name: string;
+    icon: string;
+  };
+}
+
+const TransactionCard: React.FC<IProps> = ({ data }) => {
   return (
     <Container>
-      <Title>Desenvolvimento de site</Title>
+      <Title>{data.title}</Title>
 
-      <Amount>R$ 12.000,00</Amount>
+      <Amount>{data.amount}</Amount>
 
       <Footer>
         <Category>
-          <Icon name="dollar-sign" />
-          <CategoryName>Vendas</CategoryName>
+          <Icon name={data.icon} />
+          <CategoryName>{data.category_name}</CategoryName>
         </Category>
-        <Date>28/09/2022</Date>
+        <Date>{data.date}</Date>
       </Footer>
     </Container>
   );

@@ -16,9 +16,34 @@ import {
   CardList,
   Transactions,
   Title,
+  TransactionList,
 } from "./styles";
 
 const Dashboard: React.FC = () => {
+  const data = [
+    {
+      title: "Desenvolvimento de site",
+      amount: "R$ 12.000,00",
+      date: "28/09/2022",
+      category_name: "Vendas",
+      icon: "dollar-sign",
+    },
+    {
+      title: "Desenvolvimento de site",
+      amount: "R$ 12.000,00",
+      date: "28/09/2022",
+      category_name: "Vendas",
+      icon: "dollar-sign",
+    },
+    {
+      title: "Desenvolvimento de site",
+      amount: "R$ 12.000,00",
+      date: "28/09/2022",
+      category_name: "Vendas",
+      icon: "dollar-sign",
+    },
+  ];
+
   return (
     <Container>
       <Header>
@@ -63,7 +88,11 @@ const Dashboard: React.FC = () => {
       <Transactions>
         <Title>Transações</Title>
 
-        <TransactionCard />
+        <TransactionList
+          data={data}
+          renderItem={({ item }) => <TransactionCard data={item} />}
+          showsVerticalScrollIndicator={false}
+        />
       </Transactions>
     </Container>
   );
