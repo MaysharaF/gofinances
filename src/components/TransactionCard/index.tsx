@@ -11,8 +11,9 @@ import {
   Title,
 } from "./styles";
 
-interface IProps {
+export interface TransactionCardProps {
   data: {
+    type: "positive" | "negative";
     title: string;
     amount: string;
     date: string;
@@ -21,12 +22,15 @@ interface IProps {
   };
 }
 
-const TransactionCard: React.FC<IProps> = ({ data }) => {
+const TransactionCard: React.FC<TransactionCardProps> = ({ data }) => {
   return (
     <Container>
       <Title>{data.title}</Title>
 
-      <Amount>{data.amount}</Amount>
+      <Amount type={data.type}>
+        {data.type === "negative" && "- "}
+        {data.amount}
+      </Amount>
 
       <Footer>
         <Category>
