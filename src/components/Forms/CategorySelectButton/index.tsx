@@ -6,7 +6,7 @@ interface IProps {
   title: string;
 }
 
-const CategorySelect: React.FC<IProps> = ({ title }) => {
+const CategorySelectButton: React.FC<IProps> = ({ title }) => {
   return (
     <Container>
       <Category>{title}</Category>
@@ -15,4 +15,4 @@ const CategorySelect: React.FC<IProps> = ({ title }) => {
   );
 };
 
-export default CategorySelect;
+export default CategorySelectButton;
