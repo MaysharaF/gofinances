@@ -21,15 +21,15 @@ type Category = {
 };
 
 interface IProps {
-  category: string;
+  category: Category;
   setCategory: (category: Category) => void;
   closeSelectCategory: () => void;
 }
 
 const CategorySelect: React.FC<IProps> = ({
   category,
-  closeSelectCategory,
   setCategory,
+  closeSelectCategory,
 }) => {
   return (
     <Container>
@@ -42,7 +42,10 @@ const CategorySelect: React.FC<IProps> = ({
         style={{ flex: 1, width: "100%" }}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
-          <Category>
+          <Category
+            onPress={() => setCategory(item)}
+            isActive={category.key === item.key}
+          >
             <Icon name={item.icon} />
             <Name>{item.name}</Name>
           </Category>
@@ -51,7 +54,7 @@ const CategorySelect: React.FC<IProps> = ({
       />
 
       <Footer>
-        <Button title="Selecionar" />
+        <Button title="Selecionar" onPress={closeSelectCategory} />
       </Footer>
     </Container>
   );

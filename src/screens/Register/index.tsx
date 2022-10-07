@@ -7,6 +7,8 @@ import Button from "../../components/Forms/Button";
 import TransactionTypeButton from "../../components/Forms/TransactionTypeButton";
 import CategorySelectButton from "../../components/Forms/CategorySelectButton";
 
+import CategorySelect from "../CategorySelect";
+
 import {
   Container,
   Header,
@@ -18,6 +20,11 @@ import {
 
 const Register: React.FC = () => {
   const [transactionType, setTransactionType] = useState("");
+  const [categoryModalVisible, setCategoryModalVisible] = useState(false);
+  const [category, setCategory] = useState({
+    key: "category",
+    name: "categoria",
+  });
 
   function handleTransactionsTypeSelect(type: "up" | "down") {
     setTransactionType(type);
@@ -50,11 +57,22 @@ const Register: React.FC = () => {
             />
           </TransactionsTypes>
 
-          <CategorySelectButton title="Categoria" />
+          <CategorySelectButton
+            title={category.name}
+            onPress={() => setCategoryModalVisible(true)}
+          />
         </Fields>
 
         <Button title="Enviar" />
       </Form>
+
+      <Modal visible={categoryModalVisible}>
+        <CategorySelect
+          category={category}
+          setCategory={setCategory}
+          closeSelectCategory={() => setCategoryModalVisible(false)}
+        />
+      </Modal>
     </Container>
   );
 };
