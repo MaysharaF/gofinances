@@ -17,7 +17,9 @@ const InputForm: React.FC<IProps> = ({ control, name, error, ...rest }) => {
     <Container>
       <Controller
         control={control}
-        render={({ field: { onChange, onBlur, value } }) => <Input {...rest} />}
+        render={({ field: { onChange, value } }) => (
+          <Input onChangeText={onChange} value={value} {...rest} />
+        )}
         name={name}
       />
       {error && <Error>{error}</Error>}

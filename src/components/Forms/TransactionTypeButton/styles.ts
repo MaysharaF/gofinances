@@ -8,7 +8,7 @@ interface ITransactionProps {
   isActive?: boolean;
 }
 
-export const Container = styled(RectButton)<ITransactionProps>`
+export const Container = styled.TouchableOpacity<ITransactionProps>`
   width: 48%;
   flex-direction: row;
   align-items: center;

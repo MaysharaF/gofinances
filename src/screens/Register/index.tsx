@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import InputForm from "../../components/Forms/InputForm";
 import Button from "../../components/Forms/Button";
@@ -21,7 +22,8 @@ import {
 } from "./styles";
 
 export interface FormData {
-  [name: string]: string;
+  name: string;
+  amount: number;
 }
 
 const schema = Yup.object().shape({
@@ -31,6 +33,7 @@ const schema = Yup.object().shape({
     .positive("O valor não pode ser negativo")
     .required("O valor é obrigatório"),
 });
+
 const Register: React.FC = () => {
   const [transactionType, setTransactionType] = useState("");
   const [categoryModalVisible, setCategoryModalVisible] = useState(false);
@@ -47,11 +50,14 @@ const Register: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
+  const dataKey = "@gofinances: transactions";
+
   function handleTransactionsTypeSelect(type: "up" | "down") {
     setTransactionType(type);
   }
 
-  const handleRegister = (form: FormData) => {
+  const handleRegister = async (form: Partial<FormData>) => {
+    console.log(form);
     if (!transactionType) {
       return Alert.alert("Selecione o tipo de transação");
     }
@@ -66,8 +72,23 @@ const Register: React.FC = () => {
       transactionType,
       category: category.key,
     };
-    console.log(data);
+
+    try {
+      await AsyncStorage.setItem(dataKey, JSON.stringify(data));
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Oops! Não foi possível salvar sua transação.");
+    }
   };
+
+  useEffect(() => {
+    async function loadData() {
+      const data = await AsyncStorage.getItem(dataKey);
+      console.log(JSON.parse(data!));
+    }
+
+    loadData();
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
