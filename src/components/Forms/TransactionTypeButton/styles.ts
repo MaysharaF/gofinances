@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components/native";
+import { RectButton } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 
@@ -7,7 +8,7 @@ interface ITransactionProps {
   isActive?: boolean;
 }
 
-export const Container = styled.TouchableOpacity<ITransactionProps>`
+export const Container = styled(RectButton)<ITransactionProps>`
   width: 48%;
   flex-direction: row;
   align-items: center;
