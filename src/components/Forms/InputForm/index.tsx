@@ -4,14 +4,15 @@ import { TextInputProps } from "react-native";
 
 import Input from "../Input";
 
-import { Container } from "./styles";
+import { Container, Error } from "./styles";
 
 interface IProps extends TextInputProps {
   control: Control;
   name: string;
+  error?: string;
 }
 
-const InputForm: React.FC<IProps> = ({ control, name, ...rest }) => {
+const InputForm: React.FC<IProps> = ({ control, name, error, ...rest }) => {
   return (
     <Container>
       <Controller
@@ -19,6 +20,7 @@ const InputForm: React.FC<IProps> = ({ control, name, ...rest }) => {
         render={({ field: { onChange, onBlur, value } }) => <Input {...rest} />}
         name={name}
       />
+      {error && <Error>{error}</Error>}
     </Container>
   );
 };
