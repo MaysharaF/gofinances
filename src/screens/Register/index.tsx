@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -63,7 +63,6 @@ const Register: React.FC = () => {
   }
 
   const handleRegister = async (form: Partial<FormData>) => {
-    console.log(form);
     if (!transactionType) {
       return Alert.alert("Selecione o tipo de transação");
     }
@@ -88,6 +87,7 @@ const Register: React.FC = () => {
       const dataFormatted = [...currentData, newTransaction];
 
       await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
+      console.log(dataFormatted);
 
       reset();
       setTransactionType("");
@@ -103,6 +103,14 @@ const Register: React.FC = () => {
       Alert.alert("Oops! Não foi possível salvar sua transação.");
     }
   };
+
+  // async function removeItem() {
+  //   await AsyncStorage.removeItem(dataKey);
+  // }
+
+  // useEffect(() => {
+  //   removeItem();
+  // }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

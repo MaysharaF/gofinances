@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HighlightCard from "../../components/HighlightCard";
 import TransactionCard, {
-  TransactionCardProps,
+  ITransactionCardProps,
 } from "../../components/TransactionCard";
 
 import {
@@ -22,40 +23,51 @@ import {
   LogoutButton,
 } from "./styles";
 
-export interface DataListProps extends TransactionCardProps {
+export interface DataListProps extends ITransactionCardProps {
   id: string;
 }
 
 const Dashboard: React.FC = () => {
-  const data: DataListProps[] = [
-    {
-      id: "1",
-      type: "positive",
-      title: "Desenvolvimento de site",
-      amount: "R$ 12.000,00",
-      date: "28/09/2022",
-      category_name: "Vendas",
-      icon: "dollar-sign",
-    },
-    {
-      id: "2",
-      type: "negative",
-      title: "Hamburgueria Pizzy",
-      amount: "R$ 59,00",
-      date: "28/09/2022",
-      category_name: "Alimentação",
-      icon: "coffee",
-    },
-    {
-      id: "3",
-      type: "negative",
-      title: "Aluguel do apartamento",
-      amount: "R$ 1.200,00",
-      date: "28/09/2022",
-      category_name: "Casa",
-      icon: "shopping-bag",
-    },
-  ];
+  const [data, setData] = useState<DataListProps[]>();
+  const dataKey = "@gofinances:transactions";
+
+  async function loadTransictions() {
+    const response = await AsyncStorage.getItem(dataKey);
+    const transactions = response ? JSON.parse(response) : [];
+
+    console.log(response);
+
+    const transactionsFormatted: DataListProps[] = transactions.map(
+      (transaction: DataListProps) => {
+        const amount = Number(transaction.amount).toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        });
+
+        const date = Intl.DateTimeFormat("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+        }).format(new Date(transaction.date));
+
+        return {
+          id: transaction.id,
+          name: transaction.name,
+          amount,
+          type: transaction.type,
+          category: transaction.category,
+          date,
+        };
+      }
+    );
+
+    setData(transactionsFormatted);
+    console.log(transactionsFormatted);
+  }
+
+  useEffect(() => {
+    loadTransictions();
+  }, []);
 
   return (
     <Container>

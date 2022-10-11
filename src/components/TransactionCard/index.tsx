@@ -11,21 +11,27 @@ import {
   Title,
 } from "./styles";
 
-export interface TransactionCardProps {
-  data: {
-    type: "positive" | "negative";
-    title: string;
-    amount: string;
-    date: string;
-    category_name: string;
-    icon: string;
-  };
+interface ICategoryProps {
+  icon: string;
+  name: string;
 }
 
-const TransactionCard: React.FC<TransactionCardProps> = ({ data }) => {
+export interface ITransactionCardProps {
+  type: "positive" | "negative";
+  name: string;
+  amount: string;
+  date: string;
+  category: ICategoryProps;
+}
+
+interface IProps {
+  data: ITransactionCardProps;
+}
+
+const TransactionCard: React.FC<IProps> = ({ data }) => {
   return (
     <Container>
-      <Title>{data.title}</Title>
+      <Title>{data.name}</Title>
 
       <Amount type={data.type}>
         {data.type === "negative" && "- "}
@@ -34,8 +40,8 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ data }) => {
 
       <Footer>
         <Category>
-          <Icon name={data.icon} />
-          <CategoryName>{data.category_name}</CategoryName>
+          <Icon name={data.category.icon} />
+          <CategoryName>{data.category.name}</CategoryName>
         </Category>
         <Date>{data.date}</Date>
       </Footer>
