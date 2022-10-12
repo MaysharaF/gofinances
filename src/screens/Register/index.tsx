@@ -56,7 +56,7 @@ const Register: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const dataKey = "@gofinances: transactions";
+  const dataKey = "@gofinances:transactions";
 
   function handleTransactionsTypeSelect(type: "up" | "down") {
     setTransactionType(type);

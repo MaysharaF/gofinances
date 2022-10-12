@@ -35,8 +35,6 @@ const Dashboard: React.FC = () => {
     const response = await AsyncStorage.getItem(dataKey);
     const transactions = response ? JSON.parse(response) : [];
 
-    console.log(response);
-
     const transactionsFormatted: DataListProps[] = transactions.map(
       (transaction: DataListProps) => {
         const amount = Number(transaction.amount).toLocaleString("pt-BR", {
@@ -62,7 +60,6 @@ const Dashboard: React.FC = () => {
     );
 
     setData(transactionsFormatted);
-    console.log(transactionsFormatted);
   }
 
   useEffect(() => {
