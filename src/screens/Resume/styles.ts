@@ -22,5 +22,13 @@ export const Title = styled.Text`
 `;
 
 export const Content = styled.ScrollView.attrs({
-  contentContainerStyle: { flex: 1, padding: 24 },
+  contentContainerStyle: {
+    padding: 24,
+  },
+  showsVerticalScrollIndicator: true,
 })``;
+
+export const ChatContainer = styled.View`
+  width: 100%;
+  align-items: center;
+`;
