@@ -58,7 +58,7 @@ const Register: React.FC = () => {
 
   const dataKey = "@gofinances:transactions";
 
-  function handleTransactionsTypeSelect(type: "up" | "down") {
+  function handleTransactionsTypeSelect(type: "positive" | "negative") {
     setTransactionType(type);
   }
 
@@ -75,7 +75,7 @@ const Register: React.FC = () => {
       id: String(uuid.v4()),
       name: form.name,
       amount: form.amount,
-      transactionType,
+      type: transactionType,
       category: category.key,
       date: new Date(),
     };
@@ -87,7 +87,6 @@ const Register: React.FC = () => {
       const dataFormatted = [...currentData, newTransaction];
 
       await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
-      console.log(dataFormatted);
 
       reset();
       setTransactionType("");
@@ -142,14 +141,14 @@ const Register: React.FC = () => {
               <TransactionTypeButton
                 title="Income"
                 type="up"
-                onPress={() => handleTransactionsTypeSelect("up")}
-                isActive={transactionType === "up"}
+                onPress={() => handleTransactionsTypeSelect("positive")}
+                isActive={transactionType === "positive"}
               />
               <TransactionTypeButton
                 title="Outcome"
                 type="down"
-                onPress={() => handleTransactionsTypeSelect("down")}
-                isActive={transactionType === "down"}
+                onPress={() => handleTransactionsTypeSelect("negative")}
+                isActive={transactionType === "negative"}
               />
             </TransactionsTypes>
 
