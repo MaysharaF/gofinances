@@ -3,6 +3,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { VictoryPie } from "victory-native";
 
 import { categories } from "../../utils/categories";
+
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useTheme } from "styled-components";
 
 import HistoryCard from "../../components/HistoryCard";
@@ -95,7 +97,13 @@ const Resume: React.FC = () => {
         <Title>Resumo por categoria</Title>
       </Header>
 
-      <Content>
+      <Content
+        showVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingHorizontal: 24,
+          paddingBottom: useBottomTabBarHeight(),
+        }}
+      >
         <ChatContainer>
           <VictoryPie
             data={totalByCategories}
