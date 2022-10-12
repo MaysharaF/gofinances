@@ -1,4 +1,5 @@
 import React from "react";
+import { categories } from "../../utils/categories";
 
 import {
   Container,
@@ -21,7 +22,7 @@ export interface ITransactionCardProps {
   name: string;
   amount: string;
   date: string;
-  category: ICategoryProps;
+  category: string;
 }
 
 interface IProps {
@@ -29,6 +30,8 @@ interface IProps {
 }
 
 const TransactionCard: React.FC<IProps> = ({ data }) => {
+  const [category] = categories.filter((item) => item.key === data.category);
+
   return (
     <Container>
       <Title>{data.name}</Title>
@@ -40,8 +43,8 @@ const TransactionCard: React.FC<IProps> = ({ data }) => {
 
       <Footer>
         <Category>
-          <Icon name={data.category.icon} />
-          <CategoryName>{data.category.name}</CategoryName>
+          <Icon name={category.icon} />
+          <CategoryName>{category.name}</CategoryName>
         </Category>
         <Date>{data.date}</Date>
       </Footer>
