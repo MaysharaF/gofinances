@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -26,6 +26,7 @@ import {
   Month,
   LoadContainer,
 } from "./styles";
+import { useFocusEffect } from "@react-navigation/native";
 
 interface ITransactionCardProps {
   type: "positive" | "negative";
@@ -116,9 +117,11 @@ const Resume: React.FC = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    loadData();
-  }, [selectedDate]);
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, [selectedDate])
+  );
 
   return (
     <Container>
