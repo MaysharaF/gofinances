@@ -4,6 +4,8 @@ const { CLIENT_ID } = process.env;
 const { REDIRECT_URI } = process.env;
 
 import * as AuthSession from "expo-auth-session";
+import * as AppleAuthentication from "expo-apple-authentication";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface IAuthProviderProps {
   children: ReactNode;
@@ -19,6 +21,7 @@ interface IUser {
 interface IAuthContextData {
   user: IUser;
   signInWithGoogle(): Promise<void>;
+  signInWithApple(): Promise<void>;
 }
 
 interface IAuthrizationResponse {
@@ -50,12 +53,6 @@ function AuthProvider({ children }: IAuthProviderProps) {
         );
 
         const userInfo = await response.json();
-        console.log({
-          id: userInfo.id,
-          email: userInfo.email,
-          name: userInfo.given_name,
-          photo: userInfo.picture,
-        });
 
         setUser({
           id: userInfo.id,
@@ -67,11 +64,40 @@ function AuthProvider({ children }: IAuthProviderProps) {
     } catch (error) {}
   };
 
+  const signInWithApple = async () => {
+    try {
+      const credential = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+      });
+
+      if (credential) {
+        const userLogged = {
+          id: String(credential.user),
+          email: credential.email!,
+          name: credential.fullName!.givenName!,
+          photo: undefined,
+        };
+
+        setUser(userLogged);
+        await AsyncStorage.setItem(
+          "@gofinances:user",
+          JSON.stringify(userLogged)
+        );
+      }
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user,
         signInWithGoogle,
+        signInWithApple,
       }}
     >
       {children}
