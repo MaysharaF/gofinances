@@ -3,8 +3,12 @@
     "name": "gofinances",
     "slug": "gofinances",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "scheme": "gofinances",
+    "assetBundlePatterns": ["**/*"],
+    "extra": {
+      "eas": {
+        "projectId": "bf31a1eb-36db-4db4-a2f1-9b16e2abfeee"
+      }
+    }
   }
 }

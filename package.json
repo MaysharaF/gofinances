@@ -17,9 +17,12 @@
     "@react-navigation/native": "^6.0.13",
     "date-fns": "^2.29.3",
     "expo": "~46.0.9",
+    "expo-auth-session": "~3.7.1",
     "expo-font": "~10.2.0",
+    "expo-random": "~12.3.0",
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
+    "expo-updates": "~0.14.6",
     "intl": "^1.2.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
@@ -39,7 +42,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
+    "@babel/core": "^7.18.6",
     "@types/react": "~18.0.0",
     "@types/react-native": "~0.69.1",
     "@types/styled-components-react-native": "^5.1.3",
