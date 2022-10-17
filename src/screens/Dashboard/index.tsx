@@ -8,6 +8,8 @@ import TransactionCard, {
   ITransactionCardProps,
 } from "../../components/TransactionCard";
 
+import { useAuth } from "../../hooks/auth";
+
 import theme from "../../global/styles/theme";
 
 import {
@@ -49,6 +51,8 @@ const Dashboard: React.FC = () => {
   const [highlightData, setHighlightData] = useState<HighlightData>(
     {} as HighlightData
   );
+
+  const { user, SignOut } = useAuth();
 
   const getLastTransactionDate = (
     collection: DataListProps[],
@@ -175,16 +179,16 @@ const Dashboard: React.FC = () => {
               <UserInfo>
                 <Photo
                   source={{
-                    uri: "https://avatars.githubusercontent.com/u/43793682?v=4",
+                    uri: user.photo,
                   }}
                 />
 
                 <User>
                   <UserGreeting>Olá,</UserGreeting>
-                  <UserName>Mayshara</UserName>
+                  <UserName>{user.name}</UserName>
                 </User>
               </UserInfo>
-              <LogoutButton onPress={() => {}}>
+              <LogoutButton onPress={SignOut}>
                 <Icon name="power" />
               </LogoutButton>
             </UserWrapper>
