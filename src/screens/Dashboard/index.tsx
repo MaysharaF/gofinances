@@ -58,10 +58,18 @@ const Dashboard: React.FC = () => {
     collection: DataListProps[],
     type: "positive" | "negative"
   ) => {
+    const collectionFilttered = collection.filter(
+      (transaction) => transaction.type === type
+    );
+
+    if (collectionFilttered.length === 0) {
+      return 0;
+    }
+
     const lastTransaction = new Date(
       Math.max.apply(
         Math,
-        collection
+        collectionFilttered
           .filter((transaction) => transaction.type === type)
           .map((transaction) => new Date(transaction.date).getTime())
       )
@@ -76,7 +84,7 @@ const Dashboard: React.FC = () => {
   };
 
   async function loadTransictions() {
-    const dataKey = "@gofinances:transactions";
+    const dataKey = `@gofinances:transactions_user:${user.id}`;
     const response = await AsyncStorage.getItem(dataKey);
     const transactions = response ? JSON.parse(response) : [];
 
@@ -125,7 +133,10 @@ const Dashboard: React.FC = () => {
       "negative"
     );
 
-    const totalInterval = `01 à ${lastTransactionExpensives}`;
+    const totalInterval =
+      lastTransactionExpensives === 0
+        ? "Não há transações"
+        : `01 à ${lastTransactionExpensives}`;
 
     const total = entriesTotal - expensiveTotal;
 
@@ -135,14 +146,20 @@ const Dashboard: React.FC = () => {
           style: "currency",
           currency: "BRL",
         }),
-        lastTransaction: `Última entrada dia ${lastTransactionEntries}`,
+        lastTransaction:
+          lastTransactionEntries === 0
+            ? "Não há transações"
+            : `Última entrada dia ${lastTransactionEntries}`,
       },
       expensives: {
         amount: expensiveTotal.toLocaleString("pt-BR", {
           style: "currency",
           currency: "BRL",
         }),
-        lastTransaction: `Última entrada dia ${lastTransactionExpensives}`,
+        lastTransaction:
+          lastTransactionExpensives === 0
+            ? "Não há transações"
+            : `Última entrada dia ${lastTransactionExpensives}`,
       },
       total: {
         amount: total.toLocaleString("pt-BR", {

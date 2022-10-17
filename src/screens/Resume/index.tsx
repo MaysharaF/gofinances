@@ -27,6 +27,7 @@ import {
   LoadContainer,
 } from "./styles";
 import { useFocusEffect } from "@react-navigation/native";
+import { useAuth } from "../../hooks/auth";
 
 interface ITransactionCardProps {
   type: "positive" | "negative";
@@ -53,6 +54,8 @@ const Resume: React.FC = () => {
   );
   const theme = useTheme();
 
+  const { user } = useAuth();
+
   const handleDateChange = (action: "next" | "prev") => {
     setLoading(true);
     if (action === "next") {
@@ -63,7 +66,7 @@ const Resume: React.FC = () => {
   };
 
   const loadData = async () => {
-    const dataKey = "@gofinances:transactions";
+    const dataKey = `@gofinances:transactions_user:${user.id}`;
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted = response ? JSON.parse(response) : [];
 
